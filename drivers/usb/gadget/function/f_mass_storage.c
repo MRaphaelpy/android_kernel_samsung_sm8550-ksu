@@ -3976,10 +3976,12 @@ static struct usb_function_instance *fsg_alloc_inst(void)
 
 	config_group_init_type_name(&opts->lun0.group, "lun.0", &fsg_lun_type);
 
+#if defined(CONFIG_USB_CONFIGFS_UEVENT)
 	if (create_mass_storage_device(&opts->func_inst)) {
 		rc = -ENODEV;
 		goto release_buffers;
 	}
+#endif
 
 	configfs_add_default_group(&opts->lun0.group, &opts->func_inst.group);
 
